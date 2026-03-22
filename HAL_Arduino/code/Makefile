@@ -8,7 +8,7 @@ CFLAGS  = -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -Wall
 all: blink.hex
 
 blink.elf: blink.c
-	$(CC) $(CFLAGS) -o blink.elf blink.c
+	$(CC) $(CFLAGS) -o blink.elf no_lib_blink.c
 
 blink.hex: blink.elf
 	avr-objcopy -O ihex blink.elf blink.hex
