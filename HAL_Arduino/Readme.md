@@ -51,3 +51,5 @@ picocom /dev/ttyACM0 -b 115200
 1. code/ : Has code in c and asm wihtout using ardunio library 
 2. hal/ : Has code for HAL for the Arduino that you can use in your projects wihtout depending on the Arduino HAL
 
+## UART - USART HAL 
+
