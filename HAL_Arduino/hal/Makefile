@@ -1,7 +1,7 @@
 MCU     = atmega328p
 F_CPU   = 16000000UL
 PORT    = /dev/ttyACM0
-BAUD    = 9600
+BAUD    = 115200
 CC      = avr-gcc
 CFLAGS  = -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -Wall
 BOARD	= arduino

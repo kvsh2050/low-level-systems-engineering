@@ -3,6 +3,7 @@
 
 //Datatype of the data sent : 8 bits so char
 typedef unsigned char uint8;
+#include<stdint.h>
 
 //Memory Regions 
 #define UDR0    (*(volatile unsigned char *)0xC6) 
@@ -57,18 +58,18 @@ typedef unsigned char uint8;
 typedef struct usart0
 {
     //Frame Format
-    uint8 data_bits;
-    uint8 parity_bit;
-    uint8 stop_bits;
+    uint8_t data_bits;
+    uint8_t parity_bit;
+    uint8_t stop_bits;
     //Baud Rate 
-    int Baud_rate;
+    uint32_t Baud_rate;
     //Power
-    uint8 power_mgt;
+    uint8_t power_mgt;
 } uart_config;
 
 //Function declaration 
 void UART_init(uart_config configuration);
-void UART_send(uint8 data);
-uint8 UART_rcv(void);
+void UART_send(uint8_t data);
+uint8_t UART_rcv(void);
 
 #endif
