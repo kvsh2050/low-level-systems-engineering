@@ -1,25 +1,43 @@
-MCU     = atmega328p
-F_CPU   = 16000000UL
-PORT    = /dev/ttyACM0
-BAUD    = 115200
-CC      = avr-gcc
-CFLAGS  = -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -Wall
-BOARD	= arduino
+# --- Project Configuration ---
+# Match these to your hardware and HAL settings
+MCU          = atmega328p
+F_CPU        = 16000000UL
+BAUD         = 115200
+PORT         = /dev/ttyACM0
+PROGRAMMER   = arduino
 
-all: uart.hex
-.PHONY: compile_asm 
+# --- Tools ---
+CC           = avr-gcc
+OBJCOPY      = avr-objcopy
+AVRDUDE      = avrdude
 
-uart.elf: uart_app.c
-	$(CC) $(CFLAGS) -o uart.elf uart_app.c usart0.c
+# --- Compiler Flags ---
+# -Os: Optimize for size (Professional standard for embedded)
+# -Wall: Show all warnings (Crucial for debugging)
+CFLAGS       = -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -Wall
 
-uart.hex: uart.elf
-	avr-objcopy -O ihex uart.elf uart.hex
+# --- Files ---
+TARGET       = app
+SRCS         = app.c
+# If you have separate .c files for logic, add them here:
+# SRCS       = main.c UART.c Timer.c
 
-flash: uart.hex
-	avrdude -c arduino -p $(MCU) -P $(PORT) -b $(BAUD) -U flash:w:uart.hex
+# --- DIRECTORY ---
 
+# --- Build Rules ---
+
+all: $(TARGET).hex
+
+$(TARGET).elf: $(SRCS)
+	$(CC) $(CFLAGS) $(SRCS) -o $(TARGET).elf
+
+$(TARGET).hex: $(TARGET).elf
+	$(OBJCOPY) -O ihex $(TARGET).elf $(TARGET).hex
+
+# The "Flash" command
+flash: $(TARGET).hex
+	$(AVRDUDE) -v -p $(MCU) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -D -U flash:w:$(TARGET).hex:i
+
+# Clean up the folder
 clean:
-	rm -f uart.elf uart.hex
-
-compile_asm: blink_asm.S 
-	avr-gcc -mmcu=atmega328p -DF_CPU=16000000UL -x assembler-with-cpp -o uart.elf uart.S
+	rm -f $(TARGET).elf $(TARGET).hex
