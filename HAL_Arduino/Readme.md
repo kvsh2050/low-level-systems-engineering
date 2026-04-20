@@ -6,7 +6,7 @@ Use harry potter spells to program your Arduino Projects !!!
 
 ## Programming 
 
-1. For blinking led in the arduino, use the make file to compile the baremetal code into .elf file and then convert to .hex and make flash to flash it into the board 
+1. For blinking led in the arduino(Go to avr_code_tests/blink_led), use the make file to compile the baremetal code into .elf file and then convert to .hex and make flash to flash it into the board 
 <img src="pictures/Image-led-blink.jpeg" alt="Image-led-blink" width="500">
 
 
